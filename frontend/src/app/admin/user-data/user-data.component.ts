@@ -7,6 +7,8 @@ interface User {
   id: number;
   name: string;
   email: string;
+  phoneNo:string;
+  gender:string;
   status: string;
 }
 
