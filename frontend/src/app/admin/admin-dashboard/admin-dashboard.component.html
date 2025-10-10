@@ -7,10 +7,12 @@
     </div>
     <div class="list-group list-group-flush">
       <a routerLink="/admin/dashboard" class="list-group-item list-group-item-action bg-dark text-white">Dashboard</a>
-      <a routerLink="/admin/users" class="list-group-item list-group-item-action bg-dark text-white">Users</a>
-      <a routerLink="/admin/products" class="list-group-item list-group-item-action bg-dark text-white">Products</a>
-      <a routerLink="/admin/orders" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
-      <a routerLink="/admin/reports" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
+      <a routerLink="/admin/user" class="list-group-item list-group-item-action bg-dark text-white">Users</a>
+      <a routerLink="/admin/product" class="list-group-item list-group-item-action bg-dark text-white">Products</a>
+      <a routerLink="/admin/order" class="list-group-item list-group-item-action bg-dark text-white">Orders</a>
+      <a routerLink="/admin/report" class="list-group-item list-group-item-action bg-dark text-white">Reports</a>
+      <a routerLink="/admin/invoice" class="list-group-item list-group-item-action bg-dark text-white">Invoices</a>
+      <a routerLink="/admin/inventry" class="list-group-item list-group-item-action bg-dark text-white">Inventory</a>
       <a href="#" class="list-group-item list-group-item-action bg-dark text-white" (click)="logout()">Logout</a>
     </div>
   </div>
@@ -29,7 +31,7 @@
       <div class="row">
         <!-- Dashboard cards -->
         <div class="col-md-3 mb-4" *ngFor="let card of dashboardCards">
-          <div class="card text-white h-100" [ngClass]="card.bgClass">
+          <div class="card text-white h-100">
             <div class="card-body">
               <h5 class="card-title">{{ card.title }}</h5>
               <p class="card-text fs-3">{{ card.count }}</p>
@@ -58,7 +60,7 @@
                   <tr *ngFor="let order of recentOrders">
                     <td>{{ order.id }}</td>
                     <td>{{ order.user }}</td>
-                    <td>{{ order.total | currency }}</td>
+                    <td>{{ order.total }}</td>
                     <td>{{ order.status }}</td>
                     <td>{{ order.date }}</td>
                   </tr>

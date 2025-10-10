@@ -6,12 +6,24 @@ import { AppComponent } from './app.component';
 import { AdminLoginComponent } from './admin/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserDataComponent } from './admin/user-data/user-data.component';
+import { ProductComponent } from './admin/product/product.component';
+import { OrdersComponent } from './admin/orders/orders.component';
+import { InvoiceComponent } from './admin/invoice/invoice.component';
+import { InventryComponent } from './admin/inventry/inventry.component';
+import { AddUserComponent } from './admin/adduser/adduser.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLoginComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    UserDataComponent,
+    ProductComponent,
+    OrdersComponent,
+    InvoiceComponent,
+    InventryComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,
