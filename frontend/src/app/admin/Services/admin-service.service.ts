@@ -37,8 +37,9 @@ export class DataService {
     return this.http.put<any>(`${this.baseUrl}/users/${userId}`, user);
   }
 
-
-
+ addProduct(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/products`, formData);
+  }
 
   // Get all products
   getProducts(): Observable<any[]> {

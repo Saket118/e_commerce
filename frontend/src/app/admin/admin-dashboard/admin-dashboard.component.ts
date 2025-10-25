@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { DataService } from '../Services/admin-service.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,44 +11,46 @@ import { Router } from '@angular/router';
 export class AdminDashboardComponent implements OnInit {
 
   sidebarOpen = true;
+  products: any[] = []; // Fetched products
 
-  // Dummy dashboard data
+  // Dashboard cards
   dashboardCards = [
     { title: 'Total Users', count: 150, bgClass: 'bg-primary' },
     { title: 'Total Orders', count: 320, bgClass: 'bg-success' },
-    { title: 'Total Products', count: 45, bgClass: 'bg-warning' },
+    { title: 'Total Products', count: 0, bgClass: 'bg-warning' },
     { title: 'Revenue', count: 12000, bgClass: 'bg-danger' },
   ];
 
-  recentOrders = [
-    { id: 101, user: 'Alice', total: 120, status: 'Pending', date: '2025-10-09' },
-    { id: 102, user: 'Bob', total: 250, status: 'Completed', date: '2025-10-08' },
-    { id: 103, user: 'Charlie', total: 75, status: 'Shipped', date: '2025-10-07' },
-  ];
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private adminService: DataService
+  ) {}
 
-  topProducts = [
-    { name: 'Product A', sold: 50 },
-    { name: 'Product B', sold: 40 },
-    { name: 'Product C', sold: 35 },
-  ];
-
-  lowStockProducts = [
-    { name: 'Product X', stock: 5 },
-    { name: 'Product Y', stock: 2 },
-    { name: 'Product Z', stock: 3 },
-  ];
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit(): void {}
-
-  toggleSidebar() {
-    this.sidebarOpen = !this.sidebarOpen;
-    const sidebar = document.getElementById('sidebar-wrapper');
-    if (sidebar) sidebar.style.display = this.sidebarOpen ? 'block' : 'none';
+  ngOnInit(): void {
+    this.loadProducts();
   }
 
-  logout() {
+  // ✅ Load products from service
+  loadProducts(): void {
+    this.adminService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        // Update Total Products card count dynamically
+        const productCard = this.dashboardCards.find(card => card.title === 'Total Products');
+        if (productCard) productCard.count = this.products.length;
+      },
+      error: (error) => console.error('Error fetching products:', error)
+    });
+  }
+
+  // ✅ Toggle sidebar visibility
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  // ✅ Logout user
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/admin/login']);
   }

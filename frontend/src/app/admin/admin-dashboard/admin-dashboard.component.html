@@ -28,73 +28,56 @@
     </nav>
 
     <div class="container-fluid mt-4">
+
+      <!-- Dashboard Cards -->
       <div class="row">
-        <!-- Dashboard cards -->
         <div class="col-md-3 mb-4" *ngFor="let card of dashboardCards">
-          <div class="card text-white h-100">
-            <div class="card-body">
+          <div class="card text-white h-100" [ngClass]="card.bgClass">
+            <div class="card-body text-center">
               <h5 class="card-title">{{ card.title }}</h5>
-              <p class="card-text fs-3">{{ card.count }}</p>
+              <p class="card-text fs-3 fw-bold">{{ card.count }}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Recent Orders -->
-      <div class="row">
+      <!-- ✅ All Products Table -->
+      <div class="row mt-4">
         <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header fw-bold">Recent Orders</div>
+          <div class="card mb-4 shadow-sm">
+            <div class="card-header fw-bold">All Products</div>
             <div class="card-body table-responsive">
-              <table class="table table-striped">
-                <thead>
+              <table class="table table-striped table-hover align-middle" *ngIf="products.length > 0; else noProducts">
+                <thead class="table-dark">
                   <tr>
-                    <th>Order ID</th>
-                    <th>User</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Date</th>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price ($)</th>
+                    <th>Quantity</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let order of recentOrders">
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.user }}</td>
-                    <td>{{ order.total }}</td>
-                    <td>{{ order.status }}</td>
-                    <td>{{ order.date }}</td>
+                  <tr *ngFor="let p of products; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                      <img [src]="'http://localhost:5000' + p.image" 
+                           alt="{{ p.name }}" 
+                           width="80" height="80" 
+                           style="border-radius: 6px; object-fit: cover;" />
+                    </td>
+                    <td>{{ p.name }}</td>
+                    <td>{{ p.description }}</td>
+                    <td>{{ p.price }}</td>
+                    <td>{{ p.quantity }}</td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Products Summary -->
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card mb-4">
-            <div class="card-header fw-bold">Top Selling Products</div>
-            <div class="card-body">
-              <ul>
-                <li *ngFor="let product of topProducts">
-                  {{ product.name }} - {{ product.sold }} sold
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="card mb-4">
-            <div class="card-header fw-bold">Low Stock Products</div>
-            <div class="card-body">
-              <ul>
-                <li *ngFor="let product of lowStockProducts">
-                  {{ product.name }} - {{ product.stock }} left
-                </li>
-              </ul>
+              <ng-template #noProducts>
+                <p class="text-muted mt-3">No products available.</p>
+              </ng-template>
             </div>
           </div>
         </div>

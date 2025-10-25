@@ -1,0 +1,66 @@
+<!-- Top Bar -->
+<div class="container-fluid bg-light py-2 small text-muted border-bottom">
+  <div class="container d-flex justify-content-between align-items-center">
+
+    <!-- Currency Dropdown -->
+    <div class="dropdown me-3">
+      <a
+        class="text-muted text-decoration-none dropdown-toggle"
+        href="#"
+        role="button"
+        id="currencyDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {{ selectedCurrency.symbol }} {{ selectedCurrency.code }}
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
+        <li *ngFor="let cur of currencies">
+          <a class="dropdown-item" href="#" (click)="changeCurrency(cur)">
+            {{ cur.symbol }} {{ cur.code }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="d-flex align-items-center">
+      <span class="me-3"><i class="bi bi-telephone"></i> +123 456 789</span>
+
+      <!-- Account Dropdown -->
+      <div class="dropdown me-3">
+        <a
+          class="text-muted text-decoration-none dropdown-toggle"
+          href="#"
+          role="button"
+          id="accountDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle"></i> My Account
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+          <li><a class="dropdown-item" href="/login">Login</a></li>
+          <li><a class="dropdown-item" href="/register">Register</a></li>
+        </ul>
+      </div>
+
+      <span class="me-3"><i class="bi bi-heart"></i> Wish List (0)</span>
+      <span class="me-3"><i class="bi bi-cart3"></i> Shopping Cart</span>
+      <span><a href="/cart" class="test-white text-decoration-none"><i class="bi bi-box-arrow-in-right"></i>Checkout</a></span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Categories Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-info bg-gradient rounded-bottom shadow-sm mb-4">
+  <div class="container justify-content-center">
+    <ul class="navbar-nav">
+      <li *ngFor="let cat of categories" class="nav-item px-3">
+        <a class="nav-link text-white fw-semibold text-uppercase" href="#">
+          <i class="bi bi-grid-fill me-1"></i> {{ cat.name }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

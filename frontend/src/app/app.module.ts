@@ -12,6 +12,10 @@ import { OrdersComponent } from './admin/orders/orders.component';
 import { InvoiceComponent } from './admin/invoice/invoice.component';
 import { InventryComponent } from './admin/inventry/inventry.component';
 import { AddUserComponent } from './admin/adduser/adduser.component';
+import { HomeComponent } from './pages/home/home.component';
+import { HeaderComponent } from './pages/share/header/header.component';
+import { FooterComponent } from './pages/share/footer/footer.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { AddUserComponent } from './admin/adduser/adduser.component';
     OrdersComponent,
     InvoiceComponent,
     InventryComponent,
-    AddUserComponent
+    AddUserComponent,
+    HomeComponent,
+    HeaderComponent,
+    FooterComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

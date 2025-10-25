@@ -1,1 +1,8 @@
+<!-- Header only shows when showHeaderFooter is true -->
+<app-header *ngIf="showHeaderFooter"></app-header>
+
+<!-- Main content -->
 <router-outlet></router-outlet>
+
+<!-- Footer only shows when showHeaderFooter is true -->
+<app-footer *ngIf="showHeaderFooter"></app-footer>
