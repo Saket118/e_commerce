@@ -13,9 +13,12 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(this.apiUrl, { email, password }).pipe(
       tap(res => {
-        if (res.success) {
+        if (res.success && res.user.status === 'active') {
+          // ✅ Save session details in localStorage
           localStorage.setItem('isLoggedIn', 'true');
           localStorage.setItem('user', JSON.stringify(res.user));
+        } else if (res.user && res.user.status === 'inactive') {
+          alert('Your account is inactive. Please contact admin.');
         }
       })
     );

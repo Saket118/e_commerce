@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
-import { Header } from '../share/header/header';
-import { Footer } from '../share/footer/footer';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/login/auth-service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Header, Footer],
+  imports: [CommonModule],
   templateUrl: './home.html',
-  styleUrls: ['./home.css']
+  styleUrls: ['./home.css'],
 })
-export class Home {
+export class Home implements OnInit {
+  user: any;
 
-  // Example logout method
+  constructor(private auth: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    this.user = this.auth.getUser();
+    console.log('🏠 Home Loaded User:', this.user);
+
+    // ✅ If not logged in, redirect to login
+    if (!this.user) {
+      this.router.navigate(['/admin/login']);
+    }
+  }
+
   logout() {
-    // Clear any user/session data here
-    localStorage.removeItem('token');  // if you store JWT
-    console.log('User logged out');
-    // Optionally redirect to login page
-    this.router.navigate(['/login']);
+    this.auth.logout();
+    this.router.navigate(['/admin/login']);
   }
 }

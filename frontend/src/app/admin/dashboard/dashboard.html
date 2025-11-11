@@ -1,1 +1,18 @@
-<p>dashboard works!</p>
+<div class="container mt-4" *ngIf="user; else notFound">
+  <div class="card shadow p-4">
+    <h3 class="text-center mb-3">Welcome, {{ user.name }}</h3>
+    <p class="text-center">Designation: <strong>{{ user.designation }}</strong></p>
+
+    <div class="text-center mt-4">
+      <button class="btn btn-danger" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="alert alert-warning text-center mt-5">
+    No user data found. Please <a routerLink="/admin/login">login again</a>.
+  </div>
+</ng-template>
