@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h2>Employee Data</h2>
+  <div class="d-flex justify-content-end mb-2">
+    <a class="btn btn-primary" href="/register">
+      <i class="bi bi-person-plus"></i> Add User
+    </a>
+  </div>
+  <table id="dataTable" class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Designation</th>
+        <th>Phone</th>
+        <th>Gender</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.designation }}</td>
+        <td>{{ item.phoneNo }}</td>
+        <td>{{ item.gender }}</td>
+        <td>{{ item.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

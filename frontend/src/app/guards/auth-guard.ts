@@ -10,15 +10,15 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   // 🚫 Not logged in
   if (!auth.isLoggedIn() || !user) {
-    router.navigate(['/admin/login']);
-    return false;
+    return router.createUrlTree(['/admin/login'], {
+      queryParams: { redirect: state.url }
+    });
   }
 
   // 🚫 If non-admin tries to access admin dashboard
   if (state.url.startsWith('/admin') && user.designation !== 'admin') {
     alert('Access Denied: Only admins can open the dashboard.');
-    router.navigate(['/home']);
-    return false;
+    return router.createUrlTree(['/home']);
   }
 
   // ✅ Otherwise allow access

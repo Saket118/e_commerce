@@ -1,4 +1,4 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface Currency {
@@ -17,14 +17,14 @@ export class CurrencyService {
   currency$ = this.currencySubject.asObservable();
 
   // Angular 20 Signal for reactive templates
-  currencySignal: Signal<Currency> = signal({ symbol: '€', code: 'EUR', rate: 1 });
+  currencySignal: WritableSignal<Currency> = signal({ symbol: '€', code: 'EUR', rate: 1 });
 
   constructor() { }
 
   // Set a new currency (updates both RxJS and Signal)
   setCurrency(currency: Currency) {
     this.currencySubject.next(currency);             // RxJS update
-this.currencySignal = signal(currency);
+    this.currencySignal.set(currency);               // Signal update
   }
 
   // Get current currency synchronously (from RxJS)

@@ -1,0 +1,57 @@
+:host {
+  width: 200px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.collapsed-sidebar {
+  width: 70px !important;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.active {
+  background-color: #198754 !important;
+  color: #fff !important;
+}
+
+.expanded-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.expanded-wrapper i {
+  font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+}
+
+.collapsed-sidebar .sidebar-link {
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.collapsed-wrapper i {
+  font-size: 1.2rem;
+  display: block;
+}
+
+.collapsed-wrapper small {
+  font-size: 0.65rem;
+  margin-top: 3px;
+  color: #555;
+  display: block;
+} 

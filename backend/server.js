@@ -155,5 +155,50 @@ app.post("/admin/logout", (req, res) => {
   });
 });
 
+
+
+// ✅ Get all products
+app.get("/products", (req, res) => {
+  const sql = "SELECT * FROM products ORDER BY created_at DESC";
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching products:", err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// ✅ Add Product (with image upload)
+app.post("/products", upload.single("image"), (req, res) => {
+  const { name, price, quantity, description } = req.body;
+  const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+  if (!name || !price || !quantity || !image) {
+    return res
+      .status(400)
+      .json({ error: "All fields (including image) are required." });
+  }
+
+  const sql =
+    "INSERT INTO products (name, price, quantity, description, image) VALUES (?, ?, ?, ?, ?)";
+
+  db.query(sql, [name, price, quantity, description, image], (err, result) => {
+    if (err) {
+      console.error("❌ Error inserting product:", err);
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.json({
+      message: "✅ Product added successfully!",
+      productId: result.insertId,
+      data: { name, price, quantity, description, image },
+    });
+  });
+});
+
+
+
+
 // 🚀 Start server
 app.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));

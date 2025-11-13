@@ -15,4 +15,9 @@ export class RegisterService {
   registerUser(userData: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, userData);
   }
+
+  // Get all users
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 }

@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Add Product</h5>
+
+          <form (ngSubmit)="onSubmit()" #f="ngForm">
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" name="name" [(ngModel)]="model.name" required />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Price</label>
+              <input type="number" class="form-control" name="price" [(ngModel)]="model.price" required />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Quantity</label>
+              <input type="number" class="form-control" name="quantity" [(ngModel)]="model.quantity" required />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="3" name="description" [(ngModel)]="model.description"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Image</label>
+              <input type="file" accept="image/*" class="form-control" (change)="onFileChange($event)" />
+            </div>
+
+            <div class="mb-3" *ngIf="preview">
+              <img [src]="preview" alt="preview" class="img-thumbnail" style="max-height: 180px; object-fit: cover;" />
+            </div>
+
+            <button class="btn btn-primary w-100" [disabled]="loading">{{ loading ? 'Saving...' : 'Save Product' }}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
