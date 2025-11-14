@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2025 at 01:56 PM
+-- Generation Time: Nov 14, 2025 at 02:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -31,10 +31,7 @@ CREATE TABLE `cart` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `price` decimal(10,2) DEFAULT NULL,
   `quantity` int(11) DEFAULT 1,
-  `image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -59,7 +56,8 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `price`, `quantity`, `description`, `image`, `created_at`) VALUES
-(2, 'i phone 17', 150000, 100, 'Apple mobile phone', '/uploads/1761388060556-372459819.png', '2025-10-25 10:27:40');
+(2, 'i phone 17', 150000, 100, 'Apple mobile phone', '/uploads/1761388060556-372459819.png', '2025-10-25 10:27:40'),
+(3, 'Saket', 10, 100, 'kjhgfds', '/uploads/1763116484224-661779302.png', '2025-11-14 10:34:44');
 
 -- --------------------------------------------------------
 
@@ -87,7 +85,22 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `designation`, `phoneNo`
 (2, 'Robin', 'Robin@gmail.com', '12345', 'user', '8109149253', 'Male', 'active'),
 (5, 'John Doe', 'john@example.com', '12345', 'user', '9876543210', 'Male', 'active'),
 (6, 'kunal', 'kunal@gmail.com', '12346', 'user', '0987654321', 'Male', 'active'),
-(7, 'rahul', 'rahul@gmail.com', '12345', 'user', '1234567890', 'Male', 'active');
+(7, 'rahul', 'rahul@gmail.com', '12345', 'user', '1234567890', 'Male', 'active'),
+(8, 'samiksha', 'samiksha@gmail.com', 'samiksha@123', 'user', '1234567890', 'Female', 'active'),
+(9, 'gbfhf', 'Saket@gmail.com', 'lkjhgf', 'user', '23456798765', 'Male', 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -112,6 +125,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -125,13 +144,19 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
