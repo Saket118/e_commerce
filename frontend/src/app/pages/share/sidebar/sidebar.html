@@ -69,6 +69,32 @@
     </li>
 
     <li class="nav-item">
+      <a routerLink="/admin/cart-list" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
+        <div *ngIf="!collapsed" class="expanded-wrapper">
+          <i class="bi bi-cart3 me-2"></i>
+          <span>Cart List</span>
+        </div>
+        <div *ngIf="collapsed" class="collapsed-wrapper">
+          <i class="bi bi-cart3"></i>
+          <small>Cart</small>
+        </div>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a routerLink="/admin/wishlist-list" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
+        <div *ngIf="!collapsed" class="expanded-wrapper">
+          <i class="bi bi-heart me-2"></i>
+          <span>Wishlist List</span>
+        </div>
+        <div *ngIf="collapsed" class="collapsed-wrapper">
+          <i class="bi bi-heart"></i>
+          <small>Wishlist</small>
+        </div>
+      </a>
+    </li>
+
+    <li class="nav-item">
       <a routerLink="/admin/customers" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
         <div *ngIf="!collapsed" class="expanded-wrapper">
           <i class="bi bi-people me-2"></i>

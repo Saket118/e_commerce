@@ -1,71 +1,72 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/login/auth-service';
-import { Header } from '../../pages/share/header/header';
-import { Footer } from '../../pages/share/footer/footer';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Header } from '../share/header/header';
+import { Footer } from '../share/footer/footer';
 import { Globledata } from '../../services/globleData/globledata';
 import { CurrencyService, Currency } from '../../services/currency/currency.service';
+import { AuthService } from '../../services/login/auth-service';
 import { CartService } from '../../services/cart/cart-service';
 import { WishlistService } from '../../services/wishlist/wishlist-service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-product-detail',
   standalone: true,
   imports: [CommonModule, Header, Footer],
-  templateUrl: './home.html',
-  styleUrls: ['./home.css'],
+  templateUrl: './product-detail.html',
+  styleUrls: ['./product-detail.css']
 })
-export class Home implements OnInit {
-  user: any;
-  products: any[] = [];
+export class ProductDetail implements OnInit {
+  product: any = null;
   currentCurrency: Currency | null = null;
 
   constructor(
-    private auth: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
     private globledata: Globledata,
     private currencyService: CurrencyService,
+    private auth: AuthService,
     private cartService: CartService,
     private wishlistService: WishlistService
   ) {}
 
-  ngOnInit() {
-    this.user = this.auth.getUser();
-    console.log(' Home Loaded User:', this.user);
-
-    // If not logged in, redirect to login
-    if (!this.user) {
-      // no redirect: home is public
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.router.navigate(['/home']);
+      return;
     }
 
     this.globledata.getProducts().subscribe({
       next: (res: any[]) => {
-        this.products = res || [];
+        const all = res || [];
+        this.product = all.find(p => String(p.id) === String(id)) || null;
+        if (!this.product) {
+          this.router.navigate(['/home']);
+        }
       },
       error: () => {
-        this.products = [];
+        this.router.navigate(['/home']);
       }
     });
 
-    // Subscribe to currency changes so prices update when user changes currency in header
-    this.currencyService.currency$.subscribe((cur) => {
+    this.currencyService.currency$.subscribe(cur => {
       this.currentCurrency = cur;
     });
   }
 
-  logout() {
-    this.auth.serverLogout().subscribe({
-      next: () => this.router.navigate(['/admin/login']),
-      error: () => this.router.navigate(['/admin/login'])
-    });
+  formatPrice(basePrice: number): string {
+    const currency = this.currentCurrency || this.currencyService.getCurrentCurrency();
+    const rate = currency.rate ?? 1;
+    const converted = basePrice * rate;
+    return `${currency.symbol}${converted.toFixed(2)}`;
   }
 
   addToCart(item: any) {
     const user = this.auth.getUser();
     if (!user) {
       alert('Please login to add items to cart.');
-      this.router.navigate(['/admin/login'], { queryParams: { redirect: '/home' } });
+      this.router.navigate(['/admin/login'], { queryParams: { redirect: `/product/${item.id}` } });
       return;
     }
 
@@ -97,7 +98,7 @@ export class Home implements OnInit {
     const user = this.auth.getUser();
     if (!user) {
       alert('Please login to add items to wishlist.');
-      this.router.navigate(['/admin/login'], { queryParams: { redirect: '/home' } });
+      this.router.navigate(['/admin/login'], { queryParams: { redirect: `/product/${item.id}` } });
       return;
     }
 
@@ -124,16 +125,8 @@ export class Home implements OnInit {
     });
   }
 
-  viewDetails(item: any) {
-    console.log('Viewing details for:', item);
-    this.router.navigate(['/product', item.id]);
-  }
-
-  // Format a product price using the currently selected currency
-  formatPrice(basePrice: number): string {
-    const currency = this.currentCurrency || this.currencyService.getCurrentCurrency();
-    const rate = currency.rate ?? 1;
-    const converted = basePrice * rate;
-    return `${currency.symbol}${converted.toFixed(2)}`;
+  buyNow(item: any) {
+    this.addToCart(item);
+    this.router.navigate(['/cart']);
   }
 }

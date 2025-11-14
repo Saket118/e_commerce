@@ -45,9 +45,13 @@
         </ul>
       </div>
 
-      <span class="me-3"><i class="bi bi-heart"></i> Wish List (0)</span>
-      <span class="me-3"><i class="bi bi-cart3"></i> Shopping Cart</span>
-      <span><a href="/cart" class="test-white text-decoration-none"><i class="bi bi-box-arrow-in-right"></i>Checkout</a></span>
+      <a class="me-3 text-decoration-none" [routerLink]="['/wishlist']">
+        <i class="bi bi-heart"></i> Wish List ({{ wishlistCount }})
+      </a>
+      <a class="me-3 text-decoration-none" [routerLink]="['/cart']">
+        <i class="bi bi-cart3"></i> Shopping Cart ({{ cartCount }})
+      </a>
+      <span><a [routerLink]="['/cart']" class="test-white text-decoration-none"><i class="bi bi-box-arrow-in-right"></i>Checkout</a></span>
     </div>
 
   </div>

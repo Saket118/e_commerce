@@ -1,6 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit, AfterViewInit, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Globledata } from '../../services/globleData/globledata';
+import { DataTableService } from '../../services/data-table.service';
 
 @Component({
   selector: 'app-product-info',
@@ -9,53 +10,36 @@ import { Globledata } from '../../services/globleData/globledata';
   templateUrl: './product-info.html',
   styleUrls: ['./product-info.css'],
 })
-export class ProductInfo implements OnInit, AfterViewInit, OnDestroy {
+export class ProductInfo implements OnInit, OnDestroy {
   data: any[] = [];
   private table: any;
 
   constructor(
     private globledata: Globledata,
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private cdr: ChangeDetectorRef
+    private dataTableService: DataTableService
   ) {}
 
   ngOnInit() {
     this.globledata.getProducts().subscribe((res: any) => {
       this.data = res || [];
-      if (isPlatformBrowser(this.platformId)) {
-        this.cdr.detectChanges();
+      setTimeout(() => {
         this.initOrRefreshDataTable();
-      }
+      }, 0);
     });
   }
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initOrRefreshDataTable();
-    }
-  }
-
   private async initOrRefreshDataTable() {
-    const $ = await import('jquery');
-    await import('datatables.net');
-    await import('datatables.net-bs5');
+    if (this.table) {
+      this.dataTableService.destroy(this.table);
+      this.table = null;
+    }
 
-    setTimeout(() => {
-      if (this.table) {
-        this.table.destroy();
-        this.table = null;
-      }
-      this.table = ($ as any).default('#productTable').DataTable({
-        responsive: true,
-        pageLength: 10,
-        lengthMenu: [5, 10, 25, 50]
-      });
-    }, 0);
+    this.table = await this.dataTableService.init('#productTable');
   }
 
   ngOnDestroy() {
     if (this.table) {
-      this.table.destroy();
+      this.dataTableService.destroy(this.table);
     }
   }
 }

@@ -1,0 +1,45 @@
+<app-header></app-header>
+
+<div class="container mt-4">
+  <h3>Your Wishlist</h3>
+
+  <div *ngIf="!items.length" class="alert alert-info mt-3">
+    Your wishlist is empty.
+  </div>
+
+  <div *ngIf="items.length">
+    <table class="table table-striped table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>Price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ formatPrice(item.price) }}</td>
+          <td>
+            <button class="btn btn-sm btn-primary me-2" (click)="moveToCart(i)">
+              <i class="bi bi-cart-plus"></i> Move to Cart
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="removeItem(i)">
+              <i class="bi bi-trash"></i> Remove
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button class="btn btn-outline-secondary" (click)="clearWishlist()">
+        <i class="bi bi-x-circle"></i> Clear Wishlist
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

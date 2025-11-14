@@ -1,17 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Globledata } from "../../services/globleData/globledata";
+import { Globledata } from '../../services/globleData/globledata';
 import { DataTableService } from '../../services/data-table.service';
 
 @Component({
-  selector: 'app-user-info',
+  selector: 'app-wishlist-info',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './user-info.html',
-  styleUrls: ['./user-info.css'],
+  templateUrl: './wishlist-info.html',
+  styleUrls: ['./wishlist-info.css'],
 })
-export class UserInfo implements OnInit, OnDestroy {
-
+export class WishlistInfo implements OnInit, OnDestroy {
   data: any[] = [];
   private table: any;
 
@@ -21,8 +20,8 @@ export class UserInfo implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.globledata.getUsers().subscribe((res: any) => {
-      this.data = res || [];
+    this.globledata.getWishlistAll().subscribe((res: any) => {
+      this.data = (res && res.data) ? res.data : (Array.isArray(res) ? res : []);
       setTimeout(() => {
         this.initOrRefreshDataTable();
       }, 0);
@@ -35,7 +34,7 @@ export class UserInfo implements OnInit, OnDestroy {
       this.table = null;
     }
 
-    this.table = await this.dataTableService.init('#dataTable');
+    this.table = await this.dataTableService.init('#wishlistTable');
   }
 
   ngOnDestroy() {

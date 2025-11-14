@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { CurrencyService,Currency } from '../../../services/currency/currency.service';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
 
@@ -24,6 +25,9 @@ export class Header implements OnInit {
     { id: 8, name: 'MP3 Players' }
   ];
 
+  cartCount = 0;
+  wishlistCount = 0;
+
   selectedCurrency: Currency = { symbol: '€', code: 'EUR', rate: 1 };
   currencies: Currency[] = [
     { symbol: '€', code: 'EUR', rate: 1 },
@@ -35,6 +39,20 @@ export class Header implements OnInit {
 
   ngOnInit(): void {
     this.currencyService.currency$.subscribe(cur => this.selectedCurrency = cur);
+
+    try {
+      const cart = localStorage.getItem('cart');
+      this.cartCount = cart ? JSON.parse(cart).length : 0;
+    } catch {
+      this.cartCount = 0;
+    }
+
+    try {
+      const wishlist = localStorage.getItem('wishlist');
+      this.wishlistCount = wishlist ? JSON.parse(wishlist).length : 0;
+    } catch {
+      this.wishlistCount = 0;
+    }
   }
 
   changeCurrency(currency: Currency, event?: Event) {

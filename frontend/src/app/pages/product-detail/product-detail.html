@@ -1,0 +1,43 @@
+<app-header></app-header>
+
+<div class="container mt-4" *ngIf="product; else notFound">
+  <div class="row">
+    <div class="col-md-5 text-center mb-3 mb-md-0">
+      <img
+        *ngIf="product.image"
+        class="img-fluid border rounded"
+        [src]="'http://localhost:5000' + product.image"
+        [alt]="product.name"
+        style="max-height: 320px; object-fit: cover;"
+      />
+    </div>
+    <div class="col-md-7">
+      <h3 class="mb-2">{{ product.name }}</h3>
+      <div class="text-muted mb-3">ID: {{ product.id }}</div>
+      <div class="fs-4 fw-bold text-success mb-3">{{ formatPrice(product.price) }}</div>
+      <p class="mb-3">{{ product.description }}</p>
+      <p class="mb-3">Available Quantity: <strong>{{ product.quantity }}</strong></p>
+
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <button class="btn btn-primary" (click)="addToCart(product)">
+          <i class="bi bi-cart-plus"></i> Add to Cart
+        </button>
+        <button class="btn btn-outline-secondary" (click)="addToWishlist(product)">
+          <i class="bi bi-heart"></i> Add to Wishlist
+        </button>
+        <button class="btn btn-success" (click)="buyNow(product)">
+          <i class="bi bi-bag-check"></i> Buy Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="container mt-5 text-center">
+    <h4>Product not found.</h4>
+    <a class="btn btn-link" routerLink="/home">Back to Home</a>
+  </div>
+</ng-template>
+
+<app-footer></app-footer>

@@ -8,6 +8,11 @@ import { UserInfo } from './admin/user-info/user-info';
 import { Register } from './pages/register/register';
 import { ProductInfo } from './admin/product-info/product-info';
 import { Addproduct } from './admin/addproduct/addproduct';
+import { ProductDetail } from './pages/product-detail/product-detail';
+import { Cart } from './pages/cart/cart';
+import { Wishlist } from './pages/wishlist/wishlist';
+import { CartInfo } from './admin/cart-info/cart-info';
+import { WishlistInfo } from './admin/wishlist-info/wishlist-info';
 
 export const routes: Routes = [
 
@@ -25,9 +30,14 @@ export const routes: Routes = [
       { path: 'orders', component: Home },
       { path: 'products', component: ProductInfo },
       { path: 'add-product', component: Addproduct },
+      { path: 'cart-list', component: CartInfo },
+      { path: 'wishlist-list', component: WishlistInfo },
       { path: 'customers', component: Home }
     ]
   },
+  { path: 'product/:id', component: ProductDetail },
+  { path: 'cart', component: Cart },
+  { path: 'wishlist', component: Wishlist },
   { path: 'register', component: Register },
   { path: 'home', component: Home },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
