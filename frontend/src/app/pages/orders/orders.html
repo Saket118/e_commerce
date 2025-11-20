@@ -1,0 +1,36 @@
+<app-header></app-header>
+
+<div class="container mt-4">
+  <h3>Your Orders</h3>
+
+  <div *ngIf="!orders.length" class="alert alert-info mt-3">
+    You have no orders yet.
+  </div>
+
+  <div *ngIf="orders.length">
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>User Name</th>
+          <th>User Email</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>Placed On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let o of orders">
+          <td>{{ o.id }}</td>
+          <td>{{ o.user_name }}</td>
+          <td>{{ o.user_email }}</td>
+          <td>{{ o.total_amount }}</td>
+          <td>{{ o.status }}</td>
+          <td>{{ o.created_at | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-footer></app-footer>

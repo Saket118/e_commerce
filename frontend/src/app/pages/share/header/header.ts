@@ -28,7 +28,7 @@ export class Header implements OnInit {
   cartCount = 0;
   wishlistCount = 0;
 
-  selectedCurrency: Currency = { symbol: '€', code: 'EUR', rate: 1 };
+  selectedCurrency: Currency = { symbol: '₹', code: 'INR', rate: 90};
   currencies: Currency[] = [
     { symbol: '€', code: 'EUR', rate: 1 },
     { symbol: '$', code: 'USD', rate: 1.1 },

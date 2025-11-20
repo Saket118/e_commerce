@@ -10,6 +10,7 @@ export class Globledata {
   private productsUrl = 'http://localhost:5000/products';
   private cartAllUrl = 'http://localhost:5000/cart/all';
   private wishlistAllUrl = 'http://localhost:5000/wishlist/all';
+  private ordersAllUrl = 'http://localhost:5000/orders/all';
 
   constructor(private http: HttpClient) {}
 
@@ -27,6 +28,10 @@ export class Globledata {
 
   getWishlistAll(): Observable<any[]> {
     return this.http.get<any[]>(this.wishlistAllUrl);
+  }
+
+  getOrdersAll(): Observable<any[]> {
+    return this.http.get<any[]>(this.ordersAllUrl);
   }
 
   createProduct(form: FormData): Observable<any> {

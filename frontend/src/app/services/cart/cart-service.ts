@@ -18,4 +18,14 @@ export class CartService {
   }): Observable<any> {
     return this.http.post<any>(this.apiUrl, payload);
   }
+
+  placeOrder(payload: { user_id: number }): Observable<any> {
+    return this.http.post<any>('http://localhost:5000/orders', payload);
+  }
+
+  getUserOrders(userId: number): Observable<any> {
+    return this.http.get<any>('http://localhost:5000/orders', {
+      params: { user_id: userId }
+    });
+  }
 }

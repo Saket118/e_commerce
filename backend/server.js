@@ -460,5 +460,146 @@ app.delete("/wishlist", (req, res) => {
   );
 });
 
+// ----------------------- ORDERS API ----------------------- //
+
+// ✅ Place Order (from user's cart)
+app.post("/orders", (req, res) => {
+  const { user_id } = req.body;
+
+  if (!user_id) {
+    return res
+      .status(400)
+      .json({ success: false, message: "user_id is required" });
+  }
+
+  // 1) Get all cart items for this user
+  const getCartSql = "SELECT * FROM cart WHERE user_id = ?";
+  db.query(getCartSql, [user_id], (err, cartRows) => {
+    if (err) {
+      console.error("❌ Error fetching cart for order:", err);
+      return res
+        .status(500)
+        .json({ success: false, message: "Database error" });
+    }
+
+    if (cartRows.length === 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Cart is empty" });
+    }
+
+    // 2) Calculate total amount
+    const total = cartRows.reduce(
+      (sum, item) => sum + (item.price || 0) * (item.quantity || 1),
+      0
+    );
+
+    // 3) Insert into orders table
+    const insertOrderSql =
+      "INSERT INTO orders (user_id, total_amount, status) VALUES (?, ?, 'pending')";
+    db.query(insertOrderSql, [user_id, total], (err, orderResult) => {
+      if (err) {
+        console.error("❌ Error inserting order:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Database error" });
+      }
+
+      const orderId = orderResult.insertId;
+
+      // 4) Insert order_items rows
+      const insertItemsSql =
+        "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ?";
+      const values = cartRows.map((item) => [
+        orderId,
+        item.product_id,
+        item.quantity || 1,
+        item.price || 0,
+      ]);
+
+      db.query(insertItemsSql, [values], (err) => {
+        if (err) {
+          console.error("❌ Error inserting order items:", err);
+          return res
+            .status(500)
+            .json({ success: false, message: "Database error" });
+        }
+
+        // 5) Clear user cart
+        const clearCartSql = "DELETE FROM cart WHERE user_id = ?";
+        db.query(clearCartSql, [user_id], (err) => {
+          if (err) {
+            console.error("❌ Error clearing cart after order:", err);
+            return res
+              .status(500)
+              .json({ success: false, message: "Database error" });
+          }
+
+          return res.json({
+            success: true,
+            message: "Order placed successfully",
+            orderId,
+            total,
+          });
+        });
+      });
+    });
+  });
+});
+
+// ✅ Get orders for a specific user (with basic user info)
+app.get("/orders", (req, res) => {
+  const userId = req.query.user_id;
+
+  if (!userId) {
+    return res
+      .status(400)
+      .json({ success: false, message: "user_id is required" });
+  }
+
+  const sql = `
+    SELECT o.id,
+           o.user_id,
+           o.total_amount,
+           o.status,
+           o.created_at,
+           u.name  AS user_name,
+           u.email AS user_email
+    FROM orders o
+    LEFT JOIN users u ON o.user_id = u.id
+    WHERE o.user_id = ?
+    ORDER BY o.created_at DESC
+  `;
+  db.query(sql, [userId], (err, rows) => {
+    if (err) {
+      console.error("❌ Error fetching user orders:", err);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error fetching orders" });
+    }
+    res.json({ success: true, data: rows });
+  });
+});
+
+// ✅ Get all orders (Admin)
+app.get("/orders/all", (req, res) => {
+  const sql = `
+    SELECT o.id, o.user_id, u.name AS user_name, u.email,
+           o.total_amount, o.status, o.created_at
+    FROM orders o
+    LEFT JOIN users u ON o.user_id = u.id
+    ORDER BY o.created_at DESC
+  `;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      console.error("❌ Error fetching all orders:", err);
+      return res
+        .status(500)
+        .json({ success: false, message: "Error fetching orders" });
+    }
+    res.json({ success: true, data: rows });
+  });
+});
+
 // 🚀 Start server
 app.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));

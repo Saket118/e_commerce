@@ -1,0 +1,26 @@
+<h3>All Orders</h3>
+
+<table id="ordersTable" class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>User ID</th>
+      <th>Customer</th>
+      <th>Email</th>
+      <th>Total Amount</th>
+      <th>Status</th>
+      <th>Created At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let o of data">
+      <td>{{ o.id }}</td>
+      <td>{{ o.user_id }}</td>
+      <td>{{ o.user_name }}</td>
+      <td>{{ o.email }}</td>
+      <td>{{ o.total_amount }}</td>
+      <td>{{ o.status }}</td>
+      <td>{{ o.created_at | date:'short' }}</td>
+    </tr>
+  </tbody>
+</table>

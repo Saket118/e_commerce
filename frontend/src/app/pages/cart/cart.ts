@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Header } from '../share/header/header';
 import { Footer } from '../share/footer/footer';
 import { CurrencyService, Currency } from '../../services/currency/currency.service';
+import { AuthService } from '../../services/login/auth-service';
+import { CartService } from '../../services/cart/cart-service';
 
 @Component({
   selector: 'app-cart',
@@ -18,7 +20,9 @@ export class Cart implements OnInit {
 
   constructor(
     private router: Router,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private auth: AuthService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +74,25 @@ export class Cart implements OnInit {
       alert('Your cart is empty');
       return;
     }
-    alert('Checkout flow not implemented yet.');
+
+    const user = this.auth.getUser();
+    if (!user) {
+      alert('Please login to place an order.');
+      this.router.navigate(['/admin/login'], { queryParams: { redirect: '/cart' } });
+      return;
+    }
+
+    this.cartService.placeOrder({ user_id: user.id }).subscribe({
+      next: (res: any) => {
+        this.items = [];
+        localStorage.removeItem('cart');
+        alert(res?.message || 'Order placed successfully');
+        this.router.navigate(['/orders']);
+      },
+      error: (err: any) => {
+        console.error('Order error', err);
+        alert(err?.error?.message || 'Failed to place order');
+      }
+    });
   }
 }

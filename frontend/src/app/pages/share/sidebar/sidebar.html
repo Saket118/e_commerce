@@ -3,19 +3,7 @@
   [ngClass]="{ 'collapsed-sidebar': collapsed }"
 >
   <ul class="nav nav-pills flex-column mb-auto w-100 text-center text-md-start">
-    <li class="nav-item">
-      <a routerLink="/admin/dashboard" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
-        <div *ngIf="!collapsed" class="expanded-wrapper">
-          <i class="bi bi-speedometer2 me-2"></i>
-          <span>Dashboard</span>
-        </div>
-        <div *ngIf="collapsed" class="collapsed-wrapper">
-          <i class="bi bi-speedometer2"></i>
-          <small>Dashboard</small>
-        </div>
-      </a>
-    </li>
-
+   
     <li class="nav-item">
       <a routerLink="/admin/users" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
         <div *ngIf="!collapsed" class="expanded-wrapper">
@@ -30,20 +18,7 @@
     </li>
 
     <li class="nav-item">
-      <a routerLink="/admin/submodule/1" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
-        <div *ngIf="!collapsed" class="expanded-wrapper">
-          <i class="bi bi-box me-2"></i>
-          <span>SubModule</span>
-        </div>
-        <div *ngIf="collapsed" class="collapsed-wrapper">
-          <i class="bi bi-box"></i>
-          <small>SubModule</small>
-        </div>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a routerLink="/admin/orders" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
+      <a routerLink="orders-list" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
         <div *ngIf="!collapsed" class="expanded-wrapper">
           <i class="bi bi-table me-2"></i>
           <span>Orders</span>
@@ -94,17 +69,6 @@
       </a>
     </li>
 
-    <li class="nav-item">
-      <a routerLink="/admin/customers" routerLinkActive="active bg-success text-white" class="nav-link link-dark sidebar-link">
-        <div *ngIf="!collapsed" class="expanded-wrapper">
-          <i class="bi bi-people me-2"></i>
-          <span>Customers</span>
-        </div>
-        <div *ngIf="collapsed" class="collapsed-wrapper">
-          <i class="bi bi-people"></i>
-          <small>Customers</small>
-        </div>
-      </a>
-    </li>
+   
   </ul>
 </div>
